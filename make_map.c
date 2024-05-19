@@ -105,6 +105,7 @@ void	fillstruct_assign_func(t_data *data, int flag)
 		data->p_x = 0;
 		data->e_x = 0;
 		data->n_moves = 0;
+		data->c_count = 0;
 	}
 	if (flag == 2)
 	{
