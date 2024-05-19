@@ -1,38 +1,58 @@
-NAME = so_long
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+SHELL := /bin/bash
 
-MLXLIB = libmlx42.a
-MLXFLAGS = -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
+NAME := so_long
 
-SRC = cleaning.c error_checks.c error_print_etc.c ft_split.c get_next_line_utils.c get_next_line.c \
-key_collectable_exit.c main.c make_map.c move_wasd.c pathfinding.c pngs_images_instances.c
-OBJ = $(SRC:%.c=./obj/%.o)
-OBJDIR = obj
+SRC_FILES	:=	cleaning.c \
+				error_checks.c \
+				error_print_etc.c \
+				ft_split.c \
+				get_next_line_utils.c \
+				get_next_line.c \
+				key_collectable_exit.c \
+				main.c \
+				make_map.c \
+				move_wasd.c \
+				pathfinding.c \
+				pngs_images_instances.c \
 
-all: $(NAME)
+SRC_DIR := ./
+OBJ_DIR := obj
+MLX_DIR := MLX42
 
-$(OBJDIR):
-	@mkdir -p $(OBJDIR)
+OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
-$(MLXLIB):
-	@cd ./MLX42 && cmake -B build && make -C build -j4
-	@cd ./MLX42/build && cp libmlx42.a ../../
+# SRC_SUBD = $(shell find $(SRC_DIR) -type d)
+# OBJ_SUBD = $(subst $(SRC_DIR), $(OBJ_DIR), $(SRCSUBD))
 
-$(OBJDIR)/%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+MLX42 := $(MLX_DIR)/build/libmlx42.a
 
-$(NAME): $(MLXLIB) $(OBJDIR) $(OBJ)
-	@$(CC) $(MLXFLAGS) $(MLXLIB) $(OBJ) -o $(NAME)
+CC  := cc
+IFLAGS := -I$(MLX_DIR)/include -I$(MLX_DIR)/include/$(MLX_DIR)
+CFLAGS := -Wall -Wextra -Werror -MMD -MP -g
+LFLAGS := -L$(MLX_DIR)/build -lmlx42 -lglfw -ldl -pthread -lm
+
+all: $(MLX42) $(NAME)
+
+$(MLX42):
+	git submodule update --init
+	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
+	$(MAKE) -C $(MLX_DIR)/build -j4
+
+$(NAME): $(OBJ_FILES)
+	$(CC) $^ -o $@ $(LFLAGS)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJDIR)
+	@$(MAKE) clean -C $(MLX_DIR)/build -j4
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@cd ./MLX42 && rm -rf build
-	@rm -rf $(MLXLIB)
-	@rm -rf $(NAME)
+	$(MAKE) clean/fast -C $(MLX_DIR)/build -j4
+	-rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all, clean, fclean, re
