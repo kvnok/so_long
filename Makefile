@@ -13,25 +13,25 @@ OBJDIR = obj
 all: $(NAME)
 
 $(OBJDIR):
-	mkdir $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(MLXLIB):
-	cd ./MLX42 && cmake -B build && make -C build -j4
-	cd ./MLX42/build && cp libmlx42.a ../../
+	@cd ./MLX42 && cmake -B build && make -C build -j4
+	@cd ./MLX42/build && cp libmlx42.a ../../
 
 $(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -c $(CFLAGS) -o $@ $^
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(MLXLIB) $(OBJDIR) $(OBJ)
-	$(CC) $(CFLAGS) $(MLXFLAGS) $(MLXLIB) $(OBJ) -o $(NAME)
+	@$(CC) $(MLXFLAGS) $(MLXLIB) $(OBJ) -o $(NAME)
 
 clean:
-	rm -rf $(OBJDIR)
+	@rm -rf $(OBJDIR)
 
 fclean: clean
-	cd ./MLX42 && rm -rf build
-	rm -rf $(MLXLIB)
-	rm -rf $(NAME)
+	@cd ./MLX42 && rm -rf build
+	@rm -rf $(MLXLIB)
+	@rm -rf $(NAME)
 
 re: fclean all
 
