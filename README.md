@@ -8,11 +8,11 @@ after each move, the total amount of moves done is printed to stdout
 
 ## Usage
 choose a map from the maps directory \
-make \
+make
 ```bash
 ./so_long maps/map_of_your_choice.ber
 ```
-exit the game with `esc`, `ctrl-c in the terminal` or reaching the exit
+exit the game with `esc`, `ctrl-c in the terminal` or by reaching the exit
 
 ## Screenshots of the game
 ./so_long maps/test.ber \
