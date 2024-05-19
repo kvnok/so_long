@@ -21,7 +21,7 @@ exit the game with `esc`, `ctrl-c in the terminal` or by reaching the exit
 10001 \
 1P0C1 \
 11111 \
-![from_test.ber](screenshots/from_test.ber.png)
+![test](screenshots/test.png)
 
 ./so_long maps/pillars.ber \
 1111111111111111111 \
@@ -35,7 +35,7 @@ exit the game with `esc`, `ctrl-c in the terminal` or by reaching the exit
 1010101010101010101 \
 1000C00000000000001 \
 1111111111111111111 \
-![from_pillars.ber](screenshots/from_pillars.ber.png)
+![pillars](screenshots/pillars.png)
 
 ./so_long maps/snakemaze.ber \
 1111111111111111111 \
@@ -47,4 +47,4 @@ exit the game with `esc`, `ctrl-c in the terminal` or by reaching the exit
 1011111111111110101 \
 10000000C00000001P1 \
 1111111111111111111 \
-![from_snakemaze.ber](screenshots/from_snakemaze.ber.png)
+![snakemaze](screenshots/snakemaze.png)
